@@ -8,6 +8,7 @@ import { pagination } from 'typeorm-pagination';
 import routes from './routes';
 import AppError from '@shared/errors/AppError';
 import '@shared/typeorm'; //conectando com o ormconfig
+import '@shared/container'; //exportando o container
 import uploadConfig from '@config/upload';
 
 const app = express();

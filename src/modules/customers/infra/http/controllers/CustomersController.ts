@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import CreateCustomerService from '../service/CreateCustomerService';
-import DeleteCustomerService from '../service/DeleteCustomerService';
-import ListCustomerService from '../service/ListCustomerService';
-import ShowCustomerService from '../service/ShowCustomerService';
+import { container } from 'tsyringe';
+import CreateCustomerService from '@modules/customers/service/CreateCustomerService';
+import DeleteCustomerService from '@modules/customers/service/DeleteCustomerService';
+import ListCustomerService from '@modules/customers/service/ListCustomerService';
+import ShowCustomerService from '@modules/customers/service/ShowCustomerService';
 
-import UpdateCustomerService from '../service/UpdateCustomerService';
+import UpdateCustomerService from '@modules/customers/service/UpdateCustomerService';
 
 export default class CustomersController {
   //dando tipo pro request e response com o express
@@ -28,7 +29,7 @@ export default class CustomersController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, email } = request.body;
 
-    const createCustomer = new CreateCustomerService();
+    const createCustomer = container.resolve(CreateCustomerService);
 
     const customer = await createCustomer.execute({
       name,
