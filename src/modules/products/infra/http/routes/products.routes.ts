@@ -11,10 +11,10 @@ productsRouter.get(
   '/:id',
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
-    }
+      id: Joi.string().uuid().required(),
+    },
   }),
-  productsController.show
+  productsController.show,
 );
 
 productsRouter.post(
@@ -22,11 +22,11 @@ productsRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      price: Joi.number().precision(2).required(), //precision quantidade de casas decimais
-      quantity: Joi.number().required()
-    }
+      price: Joi.number().precision(2).required(),
+      quantity: Joi.number().required(),
+    },
   }),
-  productsController.create
+  productsController.create,
 );
 
 productsRouter.put(
@@ -34,24 +34,24 @@ productsRouter.put(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      price: Joi.number().precision(2).required(), //precision quantidade de casas decimais
-      quantity: Joi.number().required()
+      price: Joi.number().precision(2).required(),
+      quantity: Joi.number().required(),
     },
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required() //validação do id
-    }
+      id: Joi.string().uuid().required(),
+    },
   }),
-  productsController.update
+  productsController.update,
 );
 
 productsRouter.delete(
   '/:id',
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
-    }
+      id: Joi.string().uuid().required(),
+    },
   }),
-  productsController.delete
+  productsController.delete,
 );
 
 export default productsRouter;

@@ -1,6 +1,6 @@
 interface IMailConfig {
-  drive: 'ethereal' | 'ses';
-  default: {
+  driver: 'ethereal' | 'ses';
+  defaults: {
     from: {
       email: string;
       name: string;
@@ -9,11 +9,12 @@ interface IMailConfig {
 }
 
 export default {
-  drive: process.env.MAIL_DRIVE || 'ethereal',
-  default: {
+  driver: process.env.MAIL_DRIVER || 'ethereal',
+
+  defaults: {
     from: {
-      email: 'contato@marcelodeveloper.com',
-      name: 'Marcelo Dias'
-    }
-  }
+      email: 'contato@aluiziodeveloper.cf',
+      name: 'Jorge Aluizio',
+    },
+  },
 } as IMailConfig;

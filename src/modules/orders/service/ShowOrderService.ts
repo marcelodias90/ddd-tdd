@@ -2,13 +2,10 @@ import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Order from '../infra/typeorm/entities/Order';
 import { OrdersRepository } from '../infra/typeorm/repositories/OrdersRepository';
-
-interface IRequest {
-  id: string;
-}
+import { IShowOrder } from '../domain/models/IShowOrder';
 
 class ShowOrderService {
-  public async execute({ id }: IRequest): Promise<Order> {
+  public async execute({ id }: IShowOrder): Promise<Order> {
     const ordersRepository = getCustomRepository(OrdersRepository);
 
     const order = await ordersRepository.findById(id);

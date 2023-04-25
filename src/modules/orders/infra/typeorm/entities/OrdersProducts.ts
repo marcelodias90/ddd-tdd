@@ -4,22 +4,24 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import Order from './Order';
 import Product from '@modules/products/infra/typeorm/entities/Product';
+import { IOrderProducts } from '@modules/orders/domain/models/IOrderProducts';
 
 @Entity('orders_products')
-class OrdersProducts {
+class OrdersProducts implements IOrderProducts {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Order, order => order.order_products) //referenciando ordersProducts com a tabela orders
+  @ManyToOne(() => Order, order => order.order_products)
   @JoinColumn({ name: 'order_id' })
   order: Order;
 
-  @ManyToOne(() => Product, product => product.order_products) //referenciando ordersProducts com a tabela product
+  @ManyToOne(() => Product, product => product.order_products)
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
@@ -38,7 +40,7 @@ class OrdersProducts {
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 }
 

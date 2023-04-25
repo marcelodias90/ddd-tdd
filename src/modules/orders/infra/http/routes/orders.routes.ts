@@ -8,14 +8,16 @@ const ordersController = new OrdersController();
 
 ordersRouter.use(isAuthenticated);
 
+ordersRouter.get('/', ordersController.index);
+
 ordersRouter.get(
   '/:id',
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
-    }
+      id: Joi.string().uuid().required(),
+    },
   }),
-  ordersController.show
+  ordersController.show,
 );
 
 ordersRouter.post(
@@ -23,10 +25,10 @@ ordersRouter.post(
   celebrate({
     [Segments.BODY]: {
       customer_id: Joi.string().uuid().required(),
-      products: Joi.required()
-    }
+      products: Joi.required(),
+    },
   }),
-  ordersController.create
+  ordersController.create,
 );
 
 export default ordersRouter;

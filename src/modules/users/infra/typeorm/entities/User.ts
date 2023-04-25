@@ -2,12 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Exclude, Expose } from 'class-transformer'; //importando a lib class transformer
+import { Exclude, Expose } from 'class-transformer';
+import { IUser } from '@modules/users/domain/models/IUser';
 
-@Entity('Users')
-class User {
+@Entity('users')
+class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -18,7 +20,7 @@ class User {
   email: string;
 
   @Column()
-  @Exclude() //restringindo a exibição pro  usuario
+  @Exclude()
   password: string;
 
   @Column()
@@ -27,15 +29,16 @@ class User {
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 
-  @Expose({ name: 'avatar_url' }) //vai export a url completa do avatar do usuario
+  @Expose({ name: 'avatar_url' })
   getAvatarUrl(): string | null {
     if (!this.avatar) {
       return null;
     }
-    return `${process.env.APP_API_URL}/files/${this.avatar}`;
+
+    return `${process.env.BASE_AVATAR_URL}/${this.avatar}`;
   }
 }
 

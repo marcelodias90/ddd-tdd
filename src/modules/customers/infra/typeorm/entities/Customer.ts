@@ -2,7 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ICustomer } from '@modules/customers/domain/models/ICustomer';
 
@@ -20,7 +21,7 @@ class Customer implements ICustomer {
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 }
 

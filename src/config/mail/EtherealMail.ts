@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import handlebarsMailTemplate from './HandlebarsMailTemplate';
+import HandlebarsMailTemplate from './HandlebarsMailTemplate';
 
 interface IMailContact {
   name: string;
@@ -27,11 +27,11 @@ export default class EtherealMail {
     to,
     from,
     subject,
-    templateData
+    templateData,
   }: ISendMail): Promise<void> {
     const account = await nodemailer.createTestAccount();
 
-    const mailTemplate = new handlebarsMailTemplate();
+    const mailTemplate = new HandlebarsMailTemplate();
 
     const transporter = nodemailer.createTransport({
       host: account.smtp.host,
@@ -39,25 +39,24 @@ export default class EtherealMail {
       secure: account.smtp.secure,
       auth: {
         user: account.user,
-        pass: account.pass
-      }
+        pass: account.pass,
+      },
     });
 
     const message = await transporter.sendMail({
       from: {
-        //from do transporte.sendmail
         name: from?.name || 'Equipe API Vendas',
-        address: from?.email || 'equipe@apivendas.com.br'
+        address: from?.email || 'equipe@apivendas.com.br',
       },
       to: {
         name: to.name,
-        address: to.email
+        address: to.email,
       },
       subject,
-      html: await mailTemplate.parse(templateData)
+      html: await mailTemplate.parse(templateData),
     });
 
-    console.log('Message sent: %s', message.messageId); //%s pega a variave message.messageId e coloca dentro do texto
+    console.log('Message sent: %s', message.messageId);
     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
   }
 }

@@ -1,33 +1,39 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import OrdersProducts from './OrdersProducts';
+import { IOrder } from '@modules/orders/domain/models/IOrder';
 
 @Entity('orders')
-class Order {
+class Order implements IOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Customer) //referenciando a tabela orders com a customer(muitos pedidos pra um cliente)
-  @JoinColumn({ name: 'customer_id' }) //informando a coluna q ta refenciando
+  @Column('int')
+  order: number;
+
+  @ManyToOne(() => Customer)
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
   @OneToMany(() => OrdersProducts, order_products => order_products.order, {
-    cascade: true //ao fazer um save, ele salva automatico as orders.
-  }) //referenciando order com a tabela ordersProducts
+    cascade: true,
+  })
   order_products: OrdersProducts[];
 
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 }
 

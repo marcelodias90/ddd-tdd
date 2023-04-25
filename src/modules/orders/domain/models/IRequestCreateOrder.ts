@@ -1,4 +1,4 @@
-import { IProduct } from '@modules/products/domain/models/IProducts';
+import { IProduct } from '@modules/products/domain/models/IProduct';
 
 export interface IRequestCreateOrder {
   customer_id: string;

@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import CreateCustomerService from '@modules/customers/service/CreateCustomerService';
-import DeleteCustomerService from '@modules/customers/service/DeleteCustomerService';
-import ListCustomerService from '@modules/customers/service/ListCustomerService';
-import ShowCustomerService from '@modules/customers/service/ShowCustomerService';
-
-import UpdateCustomerService from '@modules/customers/service/UpdateCustomerService';
+import CreateCustomerService from '@modules/customers/services/CreateCustomerService';
+import DeleteCustomerService from '@modules/customers/services/DeleteCustomerService';
+import ListCustomerService from '@modules/customers/services/ListCustomerService';
+import ShowCustomerService from '@modules/customers/services/ShowCustomerService';
+import UpdateCustomerService from '@modules/customers/services/UpdateCustomerService';
 
 export default class CustomersController {
-  //dando tipo pro request e response com o express
   public async index(request: Request, response: Response): Promise<Response> {
-    const listCostumers = new ListCustomerService();
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
 
-    const customers = await listCostumers.execute();
+    const listCustomers = container.resolve(ListCustomerService);
+    const customers = await listCustomers.execute({ page, limit });
 
     return response.json(customers);
   }
@@ -20,10 +20,11 @@ export default class CustomersController {
   public async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const showCostumer = new ShowCustomerService();
-    const costumer = await showCostumer.execute({ id });
+    const showCustomer = container.resolve(ShowCustomerService);
 
-    return response.json(costumer);
+    const customer = await showCustomer.execute({ id });
+
+    return response.json(customer);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -33,7 +34,7 @@ export default class CustomersController {
 
     const customer = await createCustomer.execute({
       name,
-      email
+      email,
     });
 
     return response.json(customer);
@@ -43,11 +44,12 @@ export default class CustomersController {
     const { name, email } = request.body;
     const { id } = request.params;
 
-    const updateCustomer = new UpdateCustomerService();
+    const updateCustomer = container.resolve(UpdateCustomerService);
+
     const customer = await updateCustomer.execute({
       id,
       name,
-      email
+      email,
     });
 
     return response.json(customer);
@@ -56,7 +58,7 @@ export default class CustomersController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const deleteCustomer = new DeleteCustomerService();
+    const deleteCustomer = container.resolve(DeleteCustomerService);
 
     await deleteCustomer.execute({ id });
 

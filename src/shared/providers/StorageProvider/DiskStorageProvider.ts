@@ -4,10 +4,9 @@ import path from 'path';
 
 export default class DiskStorageProvider {
   public async saveFile(file: string): Promise<string> {
-    //pegando o arquivo q esta temporariamente na pasta tempo e movendo pro uploads
     await fs.promises.rename(
       path.resolve(uploadConfig.tmpFolder, file),
-      path.resolve(uploadConfig.directory, file)
+      path.resolve(uploadConfig.directory, file),
     );
 
     return file;
@@ -17,9 +16,9 @@ export default class DiskStorageProvider {
     const filePath = path.resolve(uploadConfig.directory, file);
 
     try {
-      await fs.promises.stat(filePath); //verificando se o arquivo existe
+      await fs.promises.stat(filePath);
     } catch {
-      return; //caso o arquivo n existe retorna nada
+      return;
     }
 
     await fs.promises.unlink(filePath);

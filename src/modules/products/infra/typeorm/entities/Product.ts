@@ -4,7 +4,8 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('products')
@@ -12,7 +13,7 @@ class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToMany(() => OrdersProducts, order_products => order_products.product) //referenciando product com a tabela ordersProducts
+  @OneToMany(() => OrdersProducts, order_products => order_products.product)
   order_products: OrdersProducts[];
 
   @Column()
@@ -27,7 +28,7 @@ class Product {
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 }
 
